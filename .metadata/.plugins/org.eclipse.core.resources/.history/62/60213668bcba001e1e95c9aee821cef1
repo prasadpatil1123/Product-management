@@ -1,0 +1,5 @@
+package com.productMangement.service;
+
+public interface ProductService {
+
+}

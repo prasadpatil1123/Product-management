@@ -1,0 +1,5 @@
+package com.productMangement.repository;
+
+public interface ProductRepository {
+
+}
