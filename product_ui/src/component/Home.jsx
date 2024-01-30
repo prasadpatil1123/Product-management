@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import productService from "../service/product.service";
+import { getAll, deleteProduct } from "../service/productService";
 
 const Home = () => {
   const [productList, setProductList] = useState([]);
@@ -10,8 +10,7 @@ const Home = () => {
   }, []);
 
   const init = () => {
-    productService
-      .getAllProduct()
+    getAll()
       .then((res) => {
         setProductList(res.data);
       })
@@ -21,8 +20,7 @@ const Home = () => {
   };
 
   const deleteProduct = (id) => {
-    productService
-      .deleteProduct(id)
+    deleteProduct(id)
       .then((res) => {
         setMsg("Delete Successfully");
         init();
@@ -64,7 +62,7 @@ const Home = () => {
                         <td>{p.status}</td>
                         <td>
                           <Link
-                            to={'editProduct/' + p.id}
+                            to={"editProduct/" + p.id}
                             className="btn btn-sm-btn-primary"
                           >
                             Edit

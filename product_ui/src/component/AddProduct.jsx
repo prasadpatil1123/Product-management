@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import productService from "../service/product.service";
+import { createProduct } from "../service/productService";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -18,9 +18,7 @@ const AddProduct = () => {
 
   const ProductRegsiter = (e) => {
     e.preventDefault();
-
-    productService
-      .saveProduct(product)
+    createProduct(product)
       .then((res) => {
         console.log("Product Added Sucessfully");
         setMsg("Product Added Sucessfully");

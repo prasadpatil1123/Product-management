@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import productService from "../service/product.service";
+import { getById, updateProduct } from "../service/productService";
 
 const EditProduct = () => {
   const [product, setProduct] = useState({
@@ -19,15 +19,15 @@ const EditProduct = () => {
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    productService
-      .getProductById(id)
+    getById(id)
       .then((res) => {
+        // debugger;
         setProduct(res.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [id]);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -37,8 +37,7 @@ const EditProduct = () => {
   const ProductUpdate = (e) => {
     e.preventDefault();
 
-    productService
-      .editProduct(product)
+    updateProduct(product)
       .then((res) => {
         navigate("/");
       })
@@ -57,7 +56,7 @@ const EditProduct = () => {
               {msg && <p className="fs-4 text-center text-success">{msg}</p>}
 
               <div className="card-body">
-                <form onSubmit={(e) => ProductUpdate(e)}>
+                <form onSubmit={ProductUpdate}>
                   <div className="mb-3">
                     <label>Enter Product Name</label>
                     <input
