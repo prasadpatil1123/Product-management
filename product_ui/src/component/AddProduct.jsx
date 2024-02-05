@@ -10,15 +10,26 @@ const AddProduct = () => {
   });
 
   const [msg, setMsg] = useState("");
+  const [errors,setErrors]= useState({});
 
   const handleChange = (e) => {
     const value = e.target.value;
     setProduct({ ...product, [e.target.name]: value });
   };
 
+  const validateForm = ()=> {
+    const errors = {};
+    if(!product.productName.trim()){
+      errors.productName="Product name is required";
+    }
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const ProductRegsiter = (e) => {
     e.preventDefault();
-    createProduct(product)
+    if(validateForm()){
+      createProduct(product)
       .then((res) => {
         console.log("Product Added Sucessfully");
         setMsg("Product Added Sucessfully");
@@ -32,6 +43,7 @@ const AddProduct = () => {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   return (
@@ -50,10 +62,13 @@ const AddProduct = () => {
                     <input
                       type="text"
                       name="productName"
-                      className="form-control"
+                      className={`form-control ${errors.productName ? "is-invalid" : ""}`}
                       onChange={(e) => handleChange(e)}
                       value={product.productName}
                     />
+                    {errors.productName &&(
+                      <div className="invalid-feedback">{errors.productName}</div>
+                    )}
                   </div>
 
                   <div className="mb-3">
